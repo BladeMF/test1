@@ -1,0 +1,10 @@
+{
+	"name": "Test1",
+
+  "dockerComposeFile": "../../test1-docker/docker-compose.yml",
+  "service": "app",
+
+  "workspaceFolder": "/workspace/project2",
+
+  "shutdownAction": "none"
+}
