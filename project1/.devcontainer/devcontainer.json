@@ -4,5 +4,5 @@
   "dockerComposeFile": "../../test1-docker/docker-compose.yml",
   "service": "app",
 
-  "workspaceFolder": "/workspace"
+  "workspaceFolder": "/workspace/project1"
 }
