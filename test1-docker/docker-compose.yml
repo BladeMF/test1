@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+  app:
+    # container_name: ideasplatform-d
+    # image: blademf/ct-temp:latest
+    # working_dir: /var/www/html
+    depends_on:
+      - db
+    build:
+      context: php
+    ports:
+      - "80:80"
+      - "433:443"
+    volumes:
+      - test-code:/workspace
+    #   - ./app-local:/home/app-local
+    networks:
+      - test1
+  db:
+    image: mysql:5.7
+    # container_name: db
+    platform: linux/x86_64 # Only for OSX
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+      #MYSQL_ROOT_PASSWORD: 
+      #MYSQL_DATABASE: ${DB_DATABASE}
+      #MYSQL_USER: ${DB_USERNAME}
+      #MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - test-mysql:/var/lib/mysql
+    #   - ./db-local:/home/db-local
+    networks:
+      - test1
+networks:
+  test1:
+    name: test1
+volumes:
+  test-code:
+    driver: local
+  test-mysql:
+    driver: local

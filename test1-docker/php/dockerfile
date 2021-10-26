@@ -1,0 +1,42 @@
+FROM php:7.4-apache
+
+#RUN mkdir /var/www/ct
+#WORKDIR /var/www/ct
+
+# packages
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends zip unzip libzip-dev \
+        libfreetype6-dev libjpeg62-turbo-dev libpng-dev mc libicu-dev && \
+    apt-get autoremove -y && \
+    apt-get autoclean -y && \
+    apt-get clean -y && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# extensions
+RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ && \
+    docker-php-ext-install pdo_mysql gd zip intl opcache && \
+    pecl install uopz-6.1.2 && \
+    docker-php-ext-enable pdo_mysql gd zip intl uopz opcache
+
+# apache modules
+RUN a2enmod ssl rewrite headers
+
+# configuration
+#RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" && \
+#	echo "memory_limit = -1" > "$PHP_INI_DIR/conf.d/memory.ini"
+
+# composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
+
+# COPY vhosts.conf /etc/apache2/sites-enabled/vhosts.conf
+
+# ENTRYPOINT /bin/bash
+
+# docker build -t blademf/ct-temp:latest .
+# docker run -i -d --rm --name ideasplatform -v "/var/www/ct:/var/www/ct" ideasplatform | docker exec -it
+# docker exec -it e3319b4287ed01bde1c629b826ad1b5c366991efb0fb259238f51264013f75e1 bash
+
+# - OR -
+
+# docker compose build
+# docker compose run app
