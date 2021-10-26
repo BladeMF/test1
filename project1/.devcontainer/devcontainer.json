@@ -4,5 +4,7 @@
   "dockerComposeFile": "../../test1-docker/docker-compose.yml",
   "service": "app",
 
-  "workspaceFolder": "/workspace/project1"
+  "workspaceFolder": "/workspace/project1",
+
+  "shutdownAction": "none"
 }
